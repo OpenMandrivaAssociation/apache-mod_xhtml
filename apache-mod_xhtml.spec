@@ -6,7 +6,7 @@
 Summary:	Adds XHTML Namespace processing to the Apache Webserver
 Name:		apache-%{mod_name}
 Version:	0
-Release:	%mkrel 2
+Release:	%mkrel 3
 Group:		System/Servers
 License:	GPL
 URL:		http://apache.webthing.com/mod_xhtml/

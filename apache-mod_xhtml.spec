@@ -26,7 +26,6 @@ Requires:	apache-mod_xmlns
 BuildRequires:	apache-devel >= 2.2.0
 BuildRequires:	apache-mod_xmlns-devel
 BuildRequires:	file
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 mod_xhtml provides a namespace processor for http://www.w3.org/1999/xhtml that

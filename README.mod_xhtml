@@ -1,0 +1,100 @@
+mod_xhtml
+
+   mod_xhtml provides a namespace processor for
+   http://www.w3.org/1999/xhtml that serves to ensure XHTML meets the W3C
+   Appendix  C  guidelines  for  compatibility with HTML browsers and the
+   text/html  MIME  type.  In  addition, mod_xhtml implements Server Side
+   Includes  (SSI),  both  as Apache's comment-driven processing language
+   and as a separate XML namespace processor.
+
+SSI Implementation
+
+   The  mod_xhtml SSI implementation is simpler than Apache's traditional
+   mod_include,  in that it decouples the task of markup parsing from SSI
+   processing.  Most  importantly,  as  a  namespace  processor, it plugs
+   directly  in  to  general  XML-based  publishing  systems, without the
+   overhead of having to parse the markup twice.
+
+   mod_xhtml actually provides two ways to implement SSI:
+    1. Using traditional comments <!--#directive arg="val"-->
+    2. Using a separate namespace processor <ssi:directive arg="val"/>
+
+   The  two  are exactly equivalent and are implemented by the same code.
+   They can be enabled separately or mixed in a single document.
+
+Limitations
+
+   The  principal  limitation in mod_xhtml is in what it works on. Unlike
+   mod_include,  it  requires its input to be well-formed XML, and cannot
+   be used on HTML4 or tagsoup input.
+
+   The SSI implementation is also incomplete:
+     * The   SSI   exec  directive  is  deprecated  in  Apache,  and  not
+       implemented in mod_xhtml. This will probably never be implemented.
+       As in mod_include, include virtual is preferred.
+     * Regular expressions in expression matching are not supported. This
+       will probably be implemented sometime in future.
+
+Acknowledgement
+
+   Much  of the SSI implementation is based on mod_include, and mod_xhtml
+   includes a substantial amount of copied code.
+
+Usage
+
+   As  with  any  namespace module, using mod_xhtml is based on inserting
+   the xmlns filter from mod_xmlns or mod_publisher: e.g.
+LoadModule      xmlns_module    modules/mod_xmlns.so
+AddOutputFilter xmlns   .html
+or
+LoadModule   publisher_module    modules/mod_publisher.so
+AddOutputFilter markup-publisher        .html
+
+   There  are three namespace providers we can use, and several different
+   usages. Note that if you use mod_publisher, much of this is redundant,
+   and  only  the SSI namespace (the last example) provides functionality
+   over and above what's builtin.
+    1. To ensure Appendix C compliance without supporting SSI, insert the
+       basic provider for XHTML:
+       XMLNSUseNamespace http://www.w3.org/1999/xhtml on 1.0
+    2. To  ensure Appendix C compliance and support classic SSI comments,
+       use the SSI-enabled namespace provider instead:
+       XMLNSUseNamespace http://www.w3.org/1999/xhtml on ssi
+    3. To  ensure  Appendix  C compliance and support SSI as a namespace,
+       use the XHTML provider together with the SSI namespace provider:
+       XMLNSUseNamespace http://apache.webthing.com/ssi# on ssi
+       XMLNSUseNamespace http://www.w3.org/1999/xhtml on 1.0
+    4. To  ensure  Appendix C compliance and support SSI both as comments
+       and as a namespace (which may be freely mixed in a document)
+       XMLNSUseNamespace http://apache.webthing.com/ssi# on ssi
+       XMLNSUseNamespace http://www.w3.org/1999/xhtml on 1.0
+    5. To  support  the  SSI  namespace  in  XML-based publishing systems
+       without   reference  to  XHTML,  simply  load  the  SSI  namespace
+       provider:
+       XMLNSUseNamespace http://apache.webthing.com/ssi# on ssi
+       together with other namespace providers as required.
+
+Configuration
+
+   mod_xhtml   implements   three  configuration  directives.  These  set
+   processing  defaults  that  can be overridden in a document by the SSI
+   config  directive.  They  all  work  as documented under mod_include's
+   config directive.
+
+   XHTMLSSIerrmsg
+          Sets  the  error  message sent to the browser when a processing
+          directive fails.
+
+   XHTMLSSItimefmt
+          Sets the format for output of date/time fields.
+
+   XHTMLSSIsizefmt
+          Sets the format for output of size fields.
+
+Availability
+
+   mod_xhtml  is available under the GNU General Public License (GPL). As
+   with  other opensource modules, alternative licenses may be considered
+   by request.
+
+   Up * Home * Contact * Webﬁing * Apache

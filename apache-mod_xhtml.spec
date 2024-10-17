@@ -9,7 +9,7 @@ Version:	0
 Release:	14
 Group:		System/Servers
 License:	GPL
-URL:		http://apache.webthing.com/mod_xhtml/
+URL:		https://apache.webthing.com/mod_xhtml/
 # there is no official tar ball
 # http://apache.webthing.com/svn/apache/filters/xmlns/
 Source0:	http://apache.webthing.com/svn/apache/filters/xmlns/mod_xhtml.c
